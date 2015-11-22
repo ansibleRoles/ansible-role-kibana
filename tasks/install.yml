@@ -1,0 +1,53 @@
+---
+
+# JAVA 8
+- name: Add webupd8 repo apt-key
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items:
+    - "http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xC2518248EEA14886"
+
+- name: Install Java > pinning
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+  with_items:
+    - "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main"
+    - "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main"
+
+- name: Install Java > accept Oracle license
+  debconf:
+    name: "oracle-java8-installer"
+    question: "shared/accepted-oracle-license-v1-1"
+    value: "true"
+    vtype: "select"
+
+- name: Install Java > install
+  apt:
+    name:  "{{ item }}"
+    state: present
+  with_items:
+    - oracle-java8-installer
+
+# ELASTICSEARCH
+- name: Install ElasticSearch > import PGP key
+  apt_key:
+    url: '{{ item }}'
+    state: present
+  with_items:
+    - "http://packages.elasticsearch.org/GPG-KEY-elasticsearch"
+
+- name: Install ElasticSearch > pinning
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+  with_items:
+    - "deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main"
+
+- name: Install ElasticSearch > install
+  apt:
+    name:  "{{ item }}"
+    state: present
+  with_items:
+    - elasticsearch

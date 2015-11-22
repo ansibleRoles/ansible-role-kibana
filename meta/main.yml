@@ -1,0 +1,17 @@
+---
+
+dependencies: []
+
+galaxy_info:
+
+  author:              lwiesel
+  description:         A kibana role for debian-based distribs
+  license:             MIT
+  min_ansible_version: 1.7.0
+  platforms:
+    - name: Debian
+  versions:
+    - wheezy
+  categories:
+    - development
+    - web
